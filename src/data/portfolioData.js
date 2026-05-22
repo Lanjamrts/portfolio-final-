@@ -26,10 +26,10 @@ export const OWNER = {
 };
 
 export const STATS = [
-  { label: "Projets réalisés", value: 15, suffix: "+" },
-  { label: "Technologies maîtrisées", value: 8, suffix: "" },
-  { label: "Années de passion", value: 3, suffix: "+" },
-  { label: "Commits GitHub", value: 200, suffix: "+" },
+  { icon: "🏆", label: "Projets réalisés", value: "15", suffix: "+" },
+  { icon: "⚡", label: "Technologies maîtrisées", value: "8", suffix: "" },
+  { icon: "📅", label: "Années de passion", value: "3", suffix: "+" },
+  { icon: "💡", label: "Idées à créer", value: "∞", suffix: "" },
 ];
 
 // ——— COMPÉTENCES TECHNIQUES ———
