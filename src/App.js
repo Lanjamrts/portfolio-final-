@@ -360,7 +360,7 @@ if (!document.getElementById("portfolio-global-css")) {
 // ─── Loader ───────────────────────────────────────────────────────────────────
 function Loader({ onDone }) {
   const [exit, setExit] = useState(false);
-  const name = "Lanja.dev";
+  const name = "Lanja";
 
   useEffect(() => {
     const t = setTimeout(() => {

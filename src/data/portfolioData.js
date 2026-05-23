@@ -165,6 +165,42 @@ export const PROJECTS = [
     demo: null,
     featured: true,
   },
+  {
+    id: 5,
+    title: "TaskFlow Mini",
+    category: "Productivité",
+    description:
+      "Une application de gestion de tâches inspirée de Trello. Elle utilise une architecture réactive pour permettre l'organisation de flux de travail via un système intuitif de drag-and-drop.",
+    techs: ["React", "Drag & Drop API", "CSS Modules"],
+    image: "/drag-drop.jpg",
+    github: "https://github.com/Lanjamrts/drag-drop-avec-react",
+    demo: null,
+    featured: true,
+  },
+  {
+    id: 6,
+    title: "Survival Adventure",
+    category: "Jeu Web",
+    description:
+      "Un jeu d'aventure et de survie interactif développé avec React. Gérez vos ressources et explorez un monde hostile où chaque décision influe sur votre survie.",
+    techs: ["React", "Game Logic", "CSS Animations"],
+    image: "/pexels-cottonbro-4888472.jpg",
+    github: "https://github.com/Lanjamrts/survival-game-avec-react",
+    demo: null,
+    featured: true,
+  },
+  {
+    id: 7,
+    title: "Budget Insight",
+    category: "Finance",
+    description:
+      "Solution moderne de gestion de budget personnel. Elle permet de suivre vos dépenses, de catégoriser vos revenus et de visualiser votre santé financière en temps réel.",
+    techs: ["React", "State Management", "Data Viz"],
+    image: "/gestion-budget.jpg",
+    github: "https://github.com/Lanjamrts/Bugdet-app-avec-react",
+    demo: null,
+    featured: true,
+  },
 ];
 
 export const PROJECTS_FOOTER = {
@@ -181,4 +217,7 @@ export const PROJECT_FILTERS = [
   "Java",
   "Mobile",
   "Jeu",
+  "Productivité",
+  "Jeu Web",
+  "Finance",
 ];
