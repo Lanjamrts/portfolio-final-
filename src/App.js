@@ -19,6 +19,7 @@ const globalCSS = `
     --bg-surface:  #0d0d18;
     --bg-elevated: #141425;
     --bg-card:     #1a1a30;
+    --bg-surface-rgb: 13, 13, 24;
 
     --silver-100:  #eaeaf5;
     --silver-200:  #c8c8e0;
@@ -44,6 +45,9 @@ const globalCSS = `
     --border-glow: rgba(0,245,212,0.25);
     --border-violet: rgba(123,47,247,0.25);
 
+    --nav-bg: rgba(3, 3, 5, 0.75);
+    --mobile-bg: rgba(3, 3, 5, 0.96);
+
     /* ── Typography ── */
     --font-display: 'Plus Jakarta Sans', sans-serif;
     --font-body:    'Plus Jakarta Sans', sans-serif;
@@ -59,6 +63,32 @@ const globalCSS = `
     --ease-spring:  cubic-bezier(0.34, 1.56, 0.64, 1);
     --ease-elastic: cubic-bezier(0.68, -0.3, 0.27, 1.3);
     --ease-bounce:  cubic-bezier(0.34, 1.8, 0.64, 1);
+  }
+
+  [data-theme='light'] {
+    --bg-void:     #f8f9fa;
+    --bg-deep:     #ffffff;
+    --bg-surface:  #f1f3f5;
+    --bg-elevated: #e9ecef;
+    --bg-card:     #ffffff;
+    --bg-surface-rgb: 241, 243, 245;
+
+    --silver-100:  #212529;
+    --silver-200:  #343a40;
+    --silver-400:  #495057;
+    --silver-600:  #868e96;
+    --silver-800:  #adb5bd;
+
+    --text-primary:   #121212;
+    --text-secondary: #495057;
+    --text-muted:     #868e96;
+
+    --border:      rgba(0,0,0,0.08);
+    --border-glow: rgba(0,245,212,0.15);
+    --border-violet: rgba(123,47,247,0.15);
+
+    --nav-bg: rgba(248, 249, 250, 0.8);
+    --mobile-bg: rgba(255, 255, 255, 0.98);
   }
 
   html { scroll-behavior: smooth; }
@@ -96,11 +126,11 @@ const globalCSS = `
     padding: 4px 12px; border-radius: 100px;
     font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em;
     background: var(--bg-elevated); border: 1px solid var(--border);
-    color: var(--silver-400);
+    color: var(--text-secondary);
   }
 
   .glass {
-    background: rgba(255,255,255,0.02);
+    background: rgba(var(--bg-surface-rgb, 13, 13, 24), 0.7);
     border: 1px solid var(--border);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
@@ -125,6 +155,17 @@ const globalCSS = `
   @keyframes bgPulse {
     0%   { opacity: 0.7; transform: scale(1); }
     100% { opacity: 1;   transform: scale(1.05); }
+  }
+
+  /* Light mode adjustments */
+  [data-theme='light'] body::before {
+    opacity: 0.15;
+  }
+  [data-theme='light'] body::after {
+    background:
+      radial-gradient(ellipse 80% 50% at 0% 0%, rgba(0,245,212,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 60% at 100% 100%, rgba(123,47,247,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 40% at 50% 50%, rgba(0,245,212,0.05) 0%, transparent 60%);
   }
 
   /* ── Loader ── */
@@ -292,7 +333,7 @@ const globalCSS = `
     display: inline-flex; align-items: center; gap: 10px;
     padding: 15px 32px; border-radius: 14px;
     background: linear-gradient(135deg, var(--accent) 0%, #00c9a7 100%);
-    color: var(--bg-void); font-family: var(--font-mono);
+    color: #030305; font-family: var(--font-mono);
     font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
     transition: all 0.3s var(--ease-out);
     position: relative; overflow: hidden;
@@ -456,6 +497,16 @@ function BackToTop() {
 
 export default function App() {
   const [loaded, setLoaded] = useState(false);
+  const [theme, setTheme] = useState(localStorage.getItem("portfolio-theme") || "dark");
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem("portfolio-theme", theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(prev => prev === "dark" ? "light" : "dark");
+  };
 
   return (
     <>
@@ -464,7 +515,7 @@ export default function App() {
       <BackToTop />
       {loaded && (
         <div style={{ position: "relative", zIndex: 1 }}>
-          <Navbar />
+          <Navbar theme={theme} toggleTheme={toggleTheme} />
           <main>
             <Hero />
             <div className="section-divider" />
