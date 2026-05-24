@@ -1,5 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import emailjs from "@emailjs/browser";
 import { OWNER } from "../data/portfolioData.js";
+
+// ── EmailJS configuration ──────────────────────────────────────
+// Remplacez ces 3 valeurs par celles de votre compte emailjs.com
+const EMAILJS_SERVICE_ID  = process.env.REACT_APP_EMAILJS_SERVICE_ID  || "YOUR_SERVICE_ID";
+const EMAILJS_TEMPLATE_ID = process.env.REACT_APP_EMAILJS_TEMPLATE_ID || "YOUR_TEMPLATE_ID";
+const EMAILJS_PUBLIC_KEY  = process.env.REACT_APP_EMAILJS_PUBLIC_KEY  || "YOUR_PUBLIC_KEY";
 
 const phoneHref    = (n) => `tel:${n.replace(/\s/g, "")}`;
 const whatsappHref = (n) => `https://wa.me/${n.replace(/\D/g, "")}`;
@@ -254,10 +261,11 @@ const css = `
   }
 `;
 
-const FORM_ENDPOINT = `https://formsubmit.co/ajax/${OWNER.email}`;
+
 
 export default function Contact() {
   const [status, setStatus] = useState("idle");
+  const formRef = useRef(null);
 
   useEffect(() => {
     if (!document.getElementById("contact-css")) {
@@ -279,32 +287,21 @@ export default function Contact() {
     e.preventDefault();
     const form = e.target;
     const fd   = new FormData(form);
+    // Honeypot anti-spam
     if (fd.get("_gotcha")) return;
     setStatus("loading");
 
-    const name    = fd.get("name")?.toString().trim();
-    const email   = fd.get("email")?.toString().trim();
-    const phone   = fd.get("phone")?.toString().trim() || "Non renseigné";
-    const subject = fd.get("subject")?.toString().trim() || "Contact portfolio";
-    const message = fd.get("message")?.toString().trim();
-
     try {
-      const res = await fetch(FORM_ENDPOINT, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify({
-          name, email, phone, subject, message,
-          _subject: `Portfolio — ${subject}`,
-          _replyto: email,
-          _template: "table",
-          _captcha: "false",
-        }),
-      });
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok || data.success === "false") throw new Error();
+      await emailjs.sendForm(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        formRef.current,
+        { publicKey: EMAILJS_PUBLIC_KEY }
+      );
       setStatus("success");
       form.reset();
-    } catch {
+    } catch (err) {
+      console.error("EmailJS error:", err);
       setStatus("error");
     }
   };
@@ -420,7 +417,7 @@ export default function Contact() {
               </div>
             )}
 
-            <form onSubmit={handleSubmit} noValidate>
+            <form ref={formRef} onSubmit={handleSubmit} noValidate>
               <input type="text" name="_gotcha" className="contact__hp"
                 tabIndex={-1} autoComplete="off" aria-hidden="true" />
 
