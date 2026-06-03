@@ -27,8 +27,8 @@ export const OWNER = {
 
 export const STATS = [
   { icon: "🏆", label: "Projets réalisés", value: "15", suffix: "+" },
-  { icon: "⚡", label: "Technologies maîtrisées", value: "8", suffix: "" },
-  { icon: "📅", label: "Années de passion", value: "3", suffix: "+" },
+  { icon: "🔨", label: "Développement fullstack", value: "8", suffix: "" },
+  { icon: "🕒", label: "Années de pratique", value: "3", suffix: "+" },
   { icon: "💡", label: "Idées à créer", value: "∞", suffix: "" },
 ];
 
