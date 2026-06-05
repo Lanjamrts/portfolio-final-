@@ -201,6 +201,30 @@ export const PROJECTS = [
     demo: null,
     featured: true,
   },
+  {
+    id: 8,
+    title: "MadaBus",
+    category: "Full-Stack",
+    description:
+      "MadaBus est une application en ligne qui facilite la réservation de trajets entre les clients et les coopératives de transport. Elle permet aux clients d'envoyer une demande de réservation, et aux coopératives de confirmer ou gérer les demandes de manière simple et rapide.",
+    techs: ["MongoDB", "Express", "React", "Node.js"],
+    image: "/morabus.png",
+    github: "https://github.com/Lanjamrts/madabus-MERN-",
+    demo: null,
+    featured: true,
+  },
+  {
+    id: 9,
+    title: "MadaPrix",
+    category: "Full-Stack",
+    description:
+      "MadaPrix est une plateforme en ligne de comparaison de prix à Madagascar qui permet aux utilisateurs de trouver rapidement les produits les moins chers selon les boutiques disponibles. Elle aide les clients à comparer les offres, économiser de l'argent et choisir le meilleur prix facilement.",
+    techs: ["MongoDB", "Express", "React", "Node.js"],
+    image: "/madaprix.png",
+    github: "https://github.com/Lanjamrts/Tsena_mora-MERN-",
+    demo: null,
+    featured: true,
+  },
 ];
 
 export const PROJECTS_FOOTER = {
