@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useLanguage } from "../LanguageContext.js";
 import { OWNER } from "../data/portfolioData.js";
 
 const css = `
@@ -124,6 +125,25 @@ const css = `
   }
   .nav__toggle svg { width: 18px; height: 18px; }
 
+  /* Language Toggle */
+  .nav__lang {
+    width: 40px; height: 40px; border-radius: 12px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--silver-400);
+    font-family: var(--font-mono); font-size: 12px; font-weight: 700;
+    letter-spacing: 0.05em;
+    transition: all 0.3s var(--ease-spring);
+    cursor: pointer; padding: 0;
+  }
+  .nav__lang:hover {
+    border-color: var(--border-glow);
+    color: var(--accent);
+    transform: translateY(-2px);
+    background: var(--accent-dim);
+  }
+
   /* Hamburger */
   .nav__burger {
     display: none; flex-direction: column; gap: 6px;
@@ -180,13 +200,7 @@ const css = `
   }
 `;
 
-const LINKS = [
-  { label: "Accueil",      href: "hero" },
-  { label: "À propos",     href: "about" },
-  { label: "Compétences",  href: "skills" },
-  { label: "Projets",      href: "projects" },
-  { label: "Contact",      href: "contact" },
-];
+const NAV_ORDER = ["hero", "about", "skills", "projects", "contact"];
 
 function scrollTo(id) {
   const el = document.getElementById(id);
@@ -194,9 +208,16 @@ function scrollTo(id) {
 }
 
 export default function Navbar({ theme, toggleTheme }) {
+  const { lang, toggleLang, t } = useLanguage();
   const [scrolled,    setScrolled]    = useState(false);
   const [active,      setActive]      = useState("hero");
   const [mobileOpen,  setMobileOpen]  = useState(false);
+
+  const LINKS = NAV_ORDER.map((href) => {
+    const pairs = t("nav.links");
+    const pair = pairs.find((p) => p[0] === href);
+    return { href, label: pair ? pair[1] : href };
+  });
 
   useEffect(() => {
     if (!document.getElementById("navbar-css")) {
@@ -209,7 +230,7 @@ export default function Navbar({ theme, toggleTheme }) {
   useEffect(() => {
     const onScroll = () => {
       setScrolled(window.scrollY > 40);
-      const sections = LINKS.map((l) => document.getElementById(l.href));
+      const sections = NAV_ORDER.map((h) => document.getElementById(h));
       const current  = sections.find((el) => {
         if (!el) return false;
         const rect = el.getBoundingClientRect();
@@ -231,7 +252,7 @@ export default function Navbar({ theme, toggleTheme }) {
       <nav className={`nav${scrolled ? " scrolled" : ""}`}>
         <div className="container nav__inner">
           {/* Logo */}
-          <button className="nav__logo" onClick={() => scrollTo("hero")} aria-label="Accueil">
+          <button className="nav__logo" onClick={() => scrollTo("hero")} aria-label={t("nav.links.0.1")}>
             <span className="nav__logo-main">
               {OWNER.firstName}<span className="nav__logo-dot">.</span>
             </span>
@@ -253,8 +274,12 @@ export default function Navbar({ theme, toggleTheme }) {
           </ul>
 
           {/* CTA & Toggle */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <button className="nav__toggle" onClick={toggleTheme} aria-label="Changer de thème">
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <button className="nav__lang" onClick={toggleLang} aria-label={t("langToggle.ariaLabel")}>
+              {lang === "fr" ? "FR" : "EN"}
+            </button>
+
+            <button className="nav__toggle" onClick={toggleTheme} aria-label={t("themeToggle.ariaLabel")}>
               {theme === "dark" ? (
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
@@ -271,14 +296,14 @@ export default function Navbar({ theme, toggleTheme }) {
                 stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
                 <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
               </svg>
-              Me contacter
+              {t("nav.cta")}
             </button>
 
             {/* Hamburger */}
             <button
               className={`nav__burger${mobileOpen ? " open" : ""}`}
               onClick={() => setMobileOpen(!mobileOpen)}
-              aria-label="Menu"
+              aria-label={t("nav.links.0.1")}
             >
               <span /><span /><span />
             </button>
@@ -298,9 +323,14 @@ export default function Navbar({ theme, toggleTheme }) {
           </button>
         ))}
         <div className="nav__mobile-divider" />
-        <button className="nav__cta" style={{ marginTop: 8 }} onClick={() => handleLink("contact")}>
-          Me contacter
-        </button>
+        <div style={{ display: 'flex', gap: '6px', marginTop: 8 }}>
+          <button className="nav__cta" onClick={() => handleLink("contact")}>
+            {t("nav.cta")}
+          </button>
+          <button className="nav__lang" onClick={toggleLang}>
+            {lang === "fr" ? "FR" : "EN"}
+          </button>
+        </div>
       </div>
     </>
   );

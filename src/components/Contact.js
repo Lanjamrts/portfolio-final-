@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import emailjs from "@emailjs/browser";
+import { useLanguage } from "../LanguageContext.js";
 import { OWNER } from "../data/portfolioData.js";
 
 // ── EmailJS configuration ──────────────────────────────────────
@@ -264,6 +265,7 @@ const css = `
 
 
 export default function Contact() {
+  const { t } = useLanguage();
   const [status, setStatus] = useState("idle");
   const formRef = useRef(null);
 
@@ -315,19 +317,18 @@ export default function Contact() {
 
       <div className="container contact__inner">
         <div className="reveal" style={{ marginBottom: 16 }}>
-          <span className="section-label">04 / Contact</span>
+          <span className="section-label">{t("contact.sectionLabel")}</span>
         </div>
 
         <div className="reveal-left">
-          <span className="contact__heading-ghost">Contact</span>
+          <span className="contact__heading-ghost">{t("contact.ghostHeading")}</span>
           <h2 className="contact__heading">
-            Restons en <em>contact</em>
+            {t("contact.heading")} <em>{t("contact.headingAccent")}</em>
           </h2>
         </div>
 
         <p className="contact__intro reveal" style={{ transitionDelay: "0.1s" }}>
-          Un projet, une opportunité ou une simple question ?
-          Contactez-moi par e-mail, téléphone ou WhatsApp — je vous répondrai dans les meilleurs délais.
+          {t("contact.intro")}
         </p>
 
         <div className="contact__grid">
@@ -337,7 +338,7 @@ export default function Contact() {
               <div className="contact__card-glow" />
               <div className="contact__card-icon">✉️</div>
               <div className="contact__card-body">
-                <div className="contact__card-label">E-mail</div>
+                <div className="contact__card-label">{t("contact.emailLabel")}</div>
                 <div className="contact__card-value">{OWNER.email}</div>
               </div>
             </a>
@@ -346,7 +347,7 @@ export default function Contact() {
               <div className="contact__card-glow" />
               <div className="contact__card-icon">📞</div>
               <div className="contact__card-body">
-                <div className="contact__card-label">Téléphone</div>
+                <div className="contact__card-label">{t("contact.phoneLabel")}</div>
                 <div className="contact__card-value">{OWNER.phone}</div>
               </div>
             </a>
@@ -356,7 +357,7 @@ export default function Contact() {
               <div className="contact__card-glow" />
               <div className="contact__card-icon">💬</div>
               <div className="contact__card-body">
-                <div className="contact__card-label">WhatsApp</div>
+                <div className="contact__card-label">{t("contact.whatsappLabel")}</div>
                 <div className="contact__card-value">{OWNER.whatsapp}</div>
               </div>
             </a>
@@ -364,7 +365,7 @@ export default function Contact() {
             <div className="contact__card reveal-left" style={{ transitionDelay: "0.34s" }}>
               <div className="contact__card-icon">📍</div>
               <div className="contact__card-body">
-                <div className="contact__card-label">Localisation</div>
+                <div className="contact__card-label">{t("contact.locationLabel")}</div>
                 <div className="contact__card-value">{OWNER.location}</div>
               </div>
             </div>
@@ -400,20 +401,20 @@ export default function Contact() {
 
           {/* ── Form ── */}
           <div className="contact__form-wrap reveal-right">
-            <h3 className="contact__form-title">Envoyer un message</h3>
+            <h3 className="contact__form-title">{t("contact.formTitle")}</h3>
             <p className="contact__form-sub">
-              Message direct vers{" "}
+              {t("contact.formSub")}{" "}
               <span style={{ color: "var(--accent)" }}>{OWNER.email}</span>
             </p>
 
             {status === "success" && (
               <div className="contact__alert contact__alert--success" role="status">
-                ✓ Message envoyé avec succès ! Je vous répondrai dans les meilleurs délais.
+                {t("contact.successAlert")}
               </div>
             )}
             {status === "error" && (
               <div className="contact__alert contact__alert--error" role="alert">
-                ✗ Envoi impossible. Réessayez ou contactez-moi directement à {OWNER.email}.
+                {t("contact.errorAlert")} {OWNER.email}.
               </div>
             )}
 
@@ -423,38 +424,38 @@ export default function Contact() {
 
               <div className="contact__form-row">
                 <div className="contact__field">
-                  <label htmlFor="c-name">Nom complet *</label>
+                  <label htmlFor="c-name">{t("contact.nameLabel")}</label>
                   <input id="c-name" name="name" type="text" required
-                    placeholder="Ex. Jean Rakoto" autoComplete="name"
+                    placeholder={t("contact.namePlaceholder")} autoComplete="name"
                     disabled={status === "loading"} />
                 </div>
                 <div className="contact__field">
-                  <label htmlFor="c-email">E-mail *</label>
+                  <label htmlFor="c-email">{t("contact.emailLabelForm")}</label>
                   <input id="c-email" name="email" type="email" required
-                    placeholder="exemple@email.com" autoComplete="email"
+                    placeholder={t("contact.emailPlaceholder")} autoComplete="email"
                     disabled={status === "loading"} />
                 </div>
               </div>
 
               <div className="contact__form-row" style={{ marginTop: 16 }}>
                 <div className="contact__field">
-                  <label htmlFor="c-phone">Téléphone</label>
+                  <label htmlFor="c-phone">{t("contact.phoneLabelForm")}</label>
                   <input id="c-phone" name="phone" type="tel"
-                    placeholder="+261 34 00 000 00" autoComplete="tel"
+                    placeholder={t("contact.phonePlaceholder")} autoComplete="tel"
                     disabled={status === "loading"} />
                 </div>
                 <div className="contact__field">
-                  <label htmlFor="c-subject">Sujet *</label>
+                  <label htmlFor="c-subject">{t("contact.subjectLabel")}</label>
                   <input id="c-subject" name="subject" type="text" required
-                    placeholder="Ex. Proposition de stage"
+                    placeholder={t("contact.subjectPlaceholder")}
                     disabled={status === "loading"} />
                 </div>
               </div>
 
               <div className="contact__field" style={{ marginTop: 16 }}>
-                <label htmlFor="c-message">Message *</label>
+                <label htmlFor="c-message">{t("contact.messageLabel")}</label>
                 <textarea id="c-message" name="message" required
-                  placeholder="Décrivez votre projet ou votre demande..."
+                  placeholder={t("contact.messagePlaceholder")}
                   disabled={status === "loading"} />
               </div>
 
@@ -465,10 +466,10 @@ export default function Contact() {
                 disabled={status === "loading"}
               >
                 {status === "loading"
-                  ? "Envoi en cours..."
+                  ? t("contact.submitLoading")
                   : status === "success"
-                    ? "Envoyer un autre message →"
-                    : "Envoyer le message →"}
+                    ? t("contact.submitSuccess")
+                    : t("contact.submitIdle")}
               </button>
             </form>
           </div>
@@ -479,7 +480,7 @@ export default function Contact() {
           <a href={OWNER.socials.github} target="_blank" rel="noreferrer">
             {OWNER.fullName}
           </a>{" "}
-          — Portfolio développeur Full-Stack
+          — {t("contact.footer")}
         </p>
       </div>
     </section>

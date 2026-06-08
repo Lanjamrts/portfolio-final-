@@ -9,9 +9,13 @@ export const OWNER = {
   fullName: "Lanja ANDRIANJATOVO",
   fullNameFormal: "ANDRIANJATOVO Lanja Mirantsoa",
   title: "Développeur Full-Stack",
+  titleEn: "Full-Stack Developer",
   bio: "Étudiant en Génie Logiciel à l'INSI Ambanidia, passionné par le développement web et mobile moderne et la création d'expériences utilisateur innovantes.",
+  bioEn: "Software Engineering student at INSI Ambanidia, passionate about modern web and mobile development and creating innovative user experiences.",
   about:
     "Développeur d'applications web et mobiles modernes, alliant qualité d'interface, performance et robustesse fonctionnelle. Attention particulière portée à la scalabilité, aux bonnes pratiques d'architecture et à l'optimisation du code. Apprentissage continu des technologies modernes du développement.",
+  aboutEn:
+    "Modern web and mobile applications developer, combining interface quality, performance, and functional robustness. Particular attention to scalability, architectural best practices, and code optimization. Continuous learning of modern development technologies.",
   email: "lanjaandrianjatovo@gmail.com",
   phone: "+261 38 95 983 72",
   whatsapp: "+261 32 09 968 72",
@@ -26,10 +30,10 @@ export const OWNER = {
 };
 
 export const STATS = [
-  { icon: "🏆", label: "Projets réalisés", value: "15", suffix: "+" },
-  { icon: "🔨", label: "Développement fullstack", value: "8", suffix: "" },
-  { icon: "🕒", label: "Années de pratique", value: "3", suffix: "+" },
-  { icon: "💡", label: "Idées à créer", value: "∞", suffix: "" },
+  { icon: "🏆", label: "Projets réalisés", labelEn: "Projects Completed", value: "15", suffix: "+" },
+  { icon: "🔨", label: "Développement fullstack", labelEn: "Full-stack Development", value: "8", suffix: "" },
+  { icon: "🕒", label: "Années de pratique", labelEn: "Years of Practice", value: "3", suffix: "+" },
+  { icon: "💡", label: "Idées à créer", labelEn: "Ideas to Create", value: "∞", suffix: "" },
 ];
 
 // ——— COMPÉTENCES TECHNIQUES ———
@@ -123,6 +127,8 @@ export const PROJECTS = [
     category: "Full-Stack",
     description:
       "Plateforme de réservation en temps réel avec synchronisation instantanée, interface moderne et API sécurisée.",
+      descriptionEn:
+        "Real-time booking platform with instant synchronization, modern interface, and secure API.",
     techs: ["MongoDB", "Express", "Angular", "Node.js", "TypeScript"],
     image: "/reservation.png",
     github: "https://github.com/Lanjamrts/reservation-app",
@@ -135,6 +141,8 @@ export const PROJECTS = [
     category: "Java",
     description:
       "Projet académique INSI : mini boutique en ligne avec logique métier Java, catalogue produits et parcours d'achat.",
+      descriptionEn:
+        "INSI academic project: mini online store with Java business logic, product catalog, and shopping flow.",
     techs: ["Java", "HTML", "CSS", "Maven"],
     image: "/ecommerce.png",
     github: "https://github.com/Lanjamrts/projet-java-",
@@ -147,6 +155,8 @@ export const PROJECTS = [
     category: "Mobile",
     description:
       "Application mobile de gestion d'étudiants : CRUD, interface fluide et architecture Flutter multiplateforme.",
+      descriptionEn:
+        "Mobile student management application: CRUD, smooth interface, and cross-platform Flutter architecture.",
     techs: ["Flutter", "Dart"],
     image: "/gestion.png",
     github: "https://github.com/Lanjamrts/gestion-etudiant-flutter-",
@@ -159,6 +169,8 @@ export const PROJECTS = [
     category: "Jeu",
     description:
       "Jeu traditionnel malgache recodé sous Godot : règles du Fanorona, plateau interactif et logique en GDScript.",
+      descriptionEn:
+        "Traditional Malagasy game recreated in Godot: Fanorona rules, interactive board, and GDScript logic.",
     techs: ["Godot", "GDScript"],
     image: "/godot.png",
     github: "https://github.com/Lanjamrts/fanorona-godot-",
@@ -171,6 +183,8 @@ export const PROJECTS = [
     category: "Productivité",
     description:
       "Une application de gestion de tâches inspirée de Trello. Elle utilise une architecture réactive pour permettre l'organisation de flux de travail via un système intuitif de drag-and-drop.",
+      descriptionEn:
+        "A task management app inspired by Trello. Uses reactive architecture to organize workflows through an intuitive drag-and-drop system.",
     techs: ["React", "Drag & Drop API", "CSS Modules"],
     image: "/drag-drop.jpg",
     github: "https://github.com/Lanjamrts/drag-drop-avec-react",
@@ -183,6 +197,8 @@ export const PROJECTS = [
     category: "Jeu Web",
     description:
       "Un jeu d'aventure et de survie interactif développé avec React. Gérez vos ressources et explorez un monde hostile où chaque décision influe sur votre survie.",
+      descriptionEn:
+        "An interactive survival adventure game built with React. Manage resources and explore a hostile world where every decision impacts your survival.",
     techs: ["React", "Game Logic", "CSS Animations"],
     image: "/pexels-cottonbro-4888472.jpg",
     github: "https://github.com/Lanjamrts/survival-game-avec-react",
@@ -195,6 +211,8 @@ export const PROJECTS = [
     category: "Finance",
     description:
       "Solution moderne de gestion de budget personnel. Elle permet de suivre vos dépenses, de catégoriser vos revenus et de visualiser votre santé financière en temps réel.",
+      descriptionEn:
+        "Modern personal budget management solution. Track expenses, categorize income, and visualize financial health in real time.",
     techs: ["React", "State Management", "Data Viz"],
     image: "/gestion-budget.jpg",
     github: "https://github.com/Lanjamrts/Bugdet-app-avec-react",
@@ -207,6 +225,8 @@ export const PROJECTS = [
     category: "Full-Stack",
     description:
       "MadaBus est une application en ligne qui facilite la réservation de trajets entre les clients et les coopératives de transport. Elle permet aux clients d'envoyer une demande de réservation, et aux coopératives de confirmer ou gérer les demandes de manière simple et rapide.",
+      descriptionEn:
+        "MadaBus is an online application that facilitates trip booking between clients and transport cooperatives. It allows clients to send booking requests and cooperatives to confirm or manage requests simply and quickly.",
     techs: ["MongoDB", "Express", "React", "Node.js"],
     image: "/morabus.png",
     github: "https://github.com/Lanjamrts/madabus-MERN-",
@@ -219,6 +239,8 @@ export const PROJECTS = [
     category: "Full-Stack",
     description:
       "MadaPrix est une plateforme en ligne de comparaison de prix à Madagascar qui permet aux utilisateurs de trouver rapidement les produits les moins chers selon les boutiques disponibles. Elle aide les clients à comparer les offres, économiser de l'argent et choisir le meilleur prix facilement.",
+      descriptionEn:
+        "MadaPrix is an online price comparison platform in Madagascar that lets users quickly find the cheapest products across available stores. It helps customers compare offers, save money, and choose the best price easily.",
     techs: ["MongoDB", "Express", "React", "Node.js"],
     image: "/madaprix.png",
     github: "https://github.com/Lanjamrts/Tsena_mora-MERN-",
@@ -230,8 +252,12 @@ export const PROJECTS = [
 export const PROJECTS_FOOTER = {
   more:
     "D'autres réalisations sont disponibles sur mon profil GitHub.",
+  moreEn:
+    "More projects are available on my GitHub profile.",
   inProgress:
     "De nouveaux projets sont actuellement en cours de développement.",
+  inProgressEn:
+    "New projects are currently in development.",
 };
 
 // ——— FILTRES PROJETS ———

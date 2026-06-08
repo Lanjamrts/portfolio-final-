@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useLanguage } from "../LanguageContext.js";
 import { OWNER } from "../data/portfolioData.js";
 
 const css = `
@@ -345,52 +346,36 @@ const css = `
     to   { opacity: 1; }
   }
 
-  /* ── CV Download Button ── */
+  /* ── CV Buttons (subtle) ── */
+  .btn-cv-group {
+    display: flex; gap: 8px;
+  }
   .btn-cv {
-    display: inline-flex; align-items: center; gap: 10px;
-    padding: 15px 32px; border-radius: 14px;
-    background: linear-gradient(135deg, #7c3aed 0%, #00c9a7 100%);
-    color: #fff;
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 12px 22px; border-radius: 12px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
     font-family: var(--font-mono);
-    font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
-    border: none; cursor: pointer; position: relative; overflow: hidden;
-    transition: all 0.4s var(--ease-spring);
+    font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+    transition: all 0.3s var(--ease-out);
     text-decoration: none;
-    animation: cvPulse 2.5s ease-in-out infinite;
+    position: relative; overflow: hidden;
   }
   .btn-cv::before {
-    content: ''; position: absolute; top: 0; left: -100%;
-    width: 100%; height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
-    animation: cvShimmer 2.5s ease-in-out infinite;
-  }
-  @keyframes cvShimmer {
-    0% { left: -100%; }
-    100% { left: 100%; }
-  }
-  @keyframes cvPulse {
-    0%, 100% { box-shadow: 0 0 20px rgba(124,58,237,0.25); }
-    50% { box-shadow: 0 0 45px rgba(124,58,237,0.55); }
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(135deg, var(--accent-dim), var(--accent2-dim));
+    opacity: 0; transition: opacity 0.3s;
   }
   .btn-cv:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 40px rgba(124,58,237,0.4);
-    animation: none;
+    border-color: var(--border-glow);
+    color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
   }
-  .btn-cv svg {
-    transition: transform 0.3s var(--ease-spring);
-  }
-  .btn-cv:hover svg {
-    transform: translateY(4px);
-  }
-  .btn-cv:active svg {
-    animation: cvBounce 0.5s ease;
-  }
-  @keyframes cvBounce {
-    0%, 100% { transform: translateY(0); }
-    30% { transform: translateY(8px); }
-    60% { transform: translateY(-4px); }
-  }
+  .btn-cv:hover::before { opacity: 1; }
+  .btn-cv svg { transition: transform 0.3s var(--ease-spring); }
+  .btn-cv:hover svg { transform: translateY(2px); }
 
   /* ── Responsive ── */
   @media (max-width: 1024px) {
@@ -405,10 +390,20 @@ const css = `
     .hero__float-badge--tl { top: -12px; left: -16px; }
     .hero__float-badge--br { bottom: -12px; right: -16px; }
   }
+  @media (max-width: 768px) {
+    .btn-cv-group { gap: 6px; }
+    .btn-cv { padding: 10px 16px; font-size: 10px; }
+  }
   @media (max-width: 600px) {
     .hero__photo-ring { width: 240px; height: 290px; }
     .hero__cta { flex-direction: column; align-items: flex-start; }
     .hero__float-badge { display: none; }
+    .btn-cv-group { flex-direction: column; width: 100%; }
+    .btn-cv { width: 100%; justify-content: center; padding: 12px 16px; font-size: 10px; }
+  }
+  @media (max-width: 400px) {
+    .btn-cv { padding: 10px 14px; font-size: 9px; gap: 6px; }
+    .btn-cv svg { width: 11px; height: 11px; }
   }
 `;
 
@@ -535,12 +530,10 @@ function useTypewriter(words, speed = 100, pause = 2000) {
 }
 
 export default function Hero() {
+  const { lang, t } = useLanguage();
   const heroRef = useRef(null);
 
-  const roles = useTypewriter(
-    ["Développeur Full-Stack", "Étudiant en Génie Logiciel", "Créateur d'expériences web", "Mobile Developer"],
-    80, 2400
-  );
+  const roles = useTypewriter(t("hero.roles"), 80, 2400);
 
   useEffect(() => {
     if (!document.getElementById("hero-css")) {
@@ -550,7 +543,6 @@ export default function Hero() {
     }
   }, []);
 
-  /* Parallax orbs on scroll */
   useEffect(() => {
     const onScroll = () => {
       const hero = heroRef.current;
@@ -567,13 +559,11 @@ export default function Hero() {
 
   const hasPhoto = !!OWNER.avatar;
 
-  /* Headline animation delays */
-  const line1 = ["Développeur", " "];
-  const line2 = ["Full-Stack"];
+  const line1 = t("hero.headlineLine1");
+  const line2 = t("hero.headlineLine2");
 
   return (
     <section id="hero" className="hero section" ref={heroRef}>
-      {/* Backgrounds */}
       <div className="hero__aurora">
         <div className="hero__aurora-layer hero__aurora-layer--1" />
         <div className="hero__aurora-layer hero__aurora-layer--2" />
@@ -584,39 +574,28 @@ export default function Hero() {
       <StarCanvas />
 
       <div className="container hero__inner">
-        {/* ── Left ── */}
         <div className="hero__content">
 
-          {/* Badge */}
           <div className="hero__badge">
             <div className="hero__badge-dot" />
-            <span className="hero__badge-text">Disponible pour des opportunités</span>
+            <span className="hero__badge-text">{t("hero.badge")}</span>
           </div>
 
-          {/* Headline split-text */}
           <h1 className="hero__headline">
             <span className="hero__headline-line">
               {line1.map((w, i) => (
-                <span
-                  key={i}
-                  className="hero__headline-word"
-                  style={{ animationDelay: `${0.2 + i * 0.1}s` }}
-                >
+                <span key={i} className="hero__headline-word" style={{ animationDelay: `${0.2 + i * 0.1}s` }}>
                   {w}
                 </span>
               ))}
             </span>
             <span className="hero__headline-line">
-              <span
-                className="hero__headline-word hero__headline-word--accent"
-                style={{ animationDelay: "0.4s" }}
-              >
+              <span className="hero__headline-word hero__headline-word--accent" style={{ animationDelay: "0.4s" }}>
                 {line2[0]}
               </span>
             </span>
           </h1>
 
-          {/* Typewriter name + role */}
           <div className="hero__name-wrap">
             <p className="hero__name">
               {OWNER.firstName} {OWNER.lastName} —{" "}
@@ -624,45 +603,44 @@ export default function Hero() {
             </p>
           </div>
 
-          <p className="hero__bio">{OWNER.bio}</p>
+          <p className="hero__bio">{lang === "en" ? OWNER.bioEn : OWNER.bio}</p>
 
-          {/* CTA */}
           <div className="hero__cta">
-            <button
-              className="btn-primary"
-              onClick={() => document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" })}
-              data-hover
-            >
-              Voir mes projets
+            <button className="btn-primary" data-hover
+              onClick={() => document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" })}>
+              {t("hero.viewProjects")}
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
                 stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M5 12h14M12 5l7 7-7 7"/>
               </svg>
             </button>
-            <button
-              className="btn-secondary"
-              onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
-              data-hover
-            >
-              Me contacter
+            <button className="btn-secondary" data-hover
+              onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}>
+              {t("hero.contactMe")}
             </button>
-            <a
-              href="/ANDRIANJATOVO-Lanja-Mirantsoa.pdf"
-              download="CV-Lanja-Mirantsoa.pdf"
-              className="btn-cv"
-              data-hover
-            >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
-                <polyline points="7 10 12 15 17 10"/>
-                <line x1="12" y1="15" x2="12" y2="3"/>
-              </svg>
-              Télécharger mon CV
-            </a>
+            <div className="btn-cv-group">
+              <a href="/ANDRIANJATOVO-Lanja-Mirantsoa.pdf" target="_blank" rel="noreferrer"
+                className="btn-cv" data-hover>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+                {t("hero.viewCv")}
+              </a>
+              <a href="/ANDRIANJATOVO-Lanja-Mirantsoa.pdf" download="CV-Lanja-Mirantsoa.pdf"
+                className="btn-cv" data-hover>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+                  <polyline points="7 10 12 15 17 10"/>
+                  <line x1="12" y1="15" x2="12" y2="3"/>
+                </svg>
+                {t("hero.downloadCv")}
+              </a>
+            </div>
           </div>
 
-          {/* Socials */}
           <div className="hero__socials">
             {OWNER.socials.github && (
               <a href={OWNER.socials.github} target="_blank" rel="noreferrer"
@@ -691,7 +669,6 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* ── Right: Photo ── */}
         <div className="hero__photo-wrap">
           <div className="hero__photo-ring">
             <div className="hero__photo-glow" />
@@ -701,28 +678,26 @@ export default function Hero() {
               ) : (
                 <div className="hero__photo-placeholder">
                   <div className="hero__photo-placeholder-icon">👤</div>
-                  <p>AJOUTE TA PHOTO<br/>dans portfolioData.js</p>
+                  <p>{t("hero.photoPlaceholder").split("\n").map((l, i) => <span key={i}>{i > 0 && <br/>}{l}</span>)}</p>
                 </div>
               )}
             </div>
 
-            {/* Floating badges */}
             <div className="hero__float-badge hero__float-badge--tl">
               <span className="hero__float-badge-icon">⚡</span>
-              <span>Full-Stack Dev</span>
+              <span>{t("hero.floatBadge1")}</span>
             </div>
             <div className="hero__float-badge hero__float-badge--br">
               <span className="hero__float-badge-icon">🚀</span>
-              <span>15+ Projets</span>
+              <span>{t("hero.floatBadge2")}</span>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Scroll indicator */}
       <div className="hero__scroll"
         onClick={() => document.getElementById("about")?.scrollIntoView({ behavior: "smooth" })}>
-        <span className="hero__scroll-text">Scroll</span>
+        <span className="hero__scroll-text">{t("hero.scroll")}</span>
         <div className="hero__scroll-mouse">
           <div className="hero__scroll-wheel" />
         </div>

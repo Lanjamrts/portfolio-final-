@@ -1,4 +1,5 @@
 import { useEffect, useRef, useCallback } from "react";
+import { useLanguage } from "../LanguageContext.js";
 import { PROJECTS, PROJECTS_FOOTER } from "../data/portfolioData.js";
 
 const css = `
@@ -299,7 +300,7 @@ function TiltCard({ children }) {
 }
 
 export default function Projects() {
-
+  const { lang, t } = useLanguage();
 
   useEffect(() => {
     if (!document.getElementById("projects-css")) {
@@ -323,14 +324,14 @@ export default function Projects() {
       <div className="container projects__inner">
 
         <div className="reveal" style={{ marginBottom: 16 }}>
-          <span className="section-label">03 / Projets</span>
+          <span className="section-label">{t("projects.sectionLabel")}</span>
         </div>
 
         <div className="projects__header">
           <div className="reveal-left">
-            <span className="projects__heading-ghost">Work</span>
+            <span className="projects__heading-ghost">{t("projects.ghostHeading")}</span>
             <h2 className="projects__heading">
-              Projets <em>réalisés</em>
+              {t("projects.heading")} <em>{t("projects.headingAccent")}</em>
             </h2>
           </div>
 
@@ -355,7 +356,7 @@ export default function Projects() {
                         "noopener,noreferrer"
                       )
                     }
-                    aria-label={`Aperçu ${project.title}`}
+                    aria-label={`${t("projects.previewLabel")} ${project.title}`}
                   >
                     <img
                       src={project.image}
@@ -364,7 +365,7 @@ export default function Projects() {
                     />
                     <div className="project-card__preview-overlay">
                       <span className="project-card__preview-btn">
-                        {project.demo ? "Voir le site" : "Voir sur GitHub"} →
+                        {project.demo ? t("projects.viewSite") : t("projects.viewOnGithub")} →
                       </span>
                     </div>
                   </button>
@@ -373,7 +374,7 @@ export default function Projects() {
                   <div className="project-card__body">
                     <span className="project-card__category">{project.category}</span>
                     <h3 className="project-card__title">{project.title}</h3>
-                    <p className="project-card__desc">{project.description}</p>
+                    <p className="project-card__desc">{lang === "en" ? project.descriptionEn : project.description}</p>
 
                     <div className="project-card__techs">
                       {project.techs.map((t) => (
@@ -391,7 +392,7 @@ export default function Projects() {
                         <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
                           <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
                         </svg>
-                        Code source
+                        {t("projects.codeSource")}
                       </a>
                       {project.demo && (
                         <a
@@ -400,7 +401,7 @@ export default function Projects() {
                           className="project-btn project-btn--demo"
                           data-hover
                         >
-                          Voir le site
+                          {t("projects.viewSite")}
                         </a>
                       )}
                     </div>
@@ -414,12 +415,12 @@ export default function Projects() {
         <footer className="projects__footer reveal" style={{ transitionDelay: "0.2s" }}>
           <div className="projects__footer-content">
             <p>
-              <strong>+</strong> {PROJECTS_FOOTER.more}{" "}
+              <strong>+</strong> {lang === "en" ? PROJECTS_FOOTER.moreEn : PROJECTS_FOOTER.more}{" "}
               <a href="https://github.com/Lanjamrts" target="_blank" rel="noreferrer">
                 github.com/Lanjamrts
               </a>
             </p>
-            <p><strong>→</strong> {PROJECTS_FOOTER.inProgress}</p>
+            <p><strong>→</strong> {lang === "en" ? PROJECTS_FOOTER.inProgressEn : PROJECTS_FOOTER.inProgress}</p>
           </div>
         </footer>
       </div>

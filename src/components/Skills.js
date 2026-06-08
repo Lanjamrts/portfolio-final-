@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { useLanguage } from "../LanguageContext.js";
 import { SKILL_CATEGORIES } from "../data/portfolioData.js";
 
 const css = `
@@ -161,6 +162,7 @@ const ALL_SKILLS = ["React", "Next.js", "Vue", "Node.js", "Flutter", "MongoDB",
   "Git", "Tailwind", "Express", "MySQL", "Redis", "Symfony"];
 
 export default function Skills() {
+  const { t } = useLanguage();
   const marqueeRef = useRef(null);
 
   useEffect(() => {
@@ -199,15 +201,15 @@ export default function Skills() {
 
         <div className="container">
           <div className="reveal" style={{ marginBottom: 16 }}>
-            <span className="section-label">02 / Compétences</span>
+            <span className="section-label">{t("skills.sectionLabel")}</span>
           </div>
 
           <div className="skills__header">
             <div className="reveal-left">
-              <span className="skills__heading-ghost">Skills</span>
+              <span className="skills__heading-ghost">{t("skills.ghostHeading")}</span>
               <h2 className="skills__heading">
-                Compétences{" "}
-                <span className="skills__heading-accent">techniques</span>
+                {t("skills.heading")}{" "}
+                <span className="skills__heading-accent">{t("skills.headingAccent")}</span>
               </h2>
             </div>
           </div>

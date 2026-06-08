@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { LanguageProvider, useLanguage } from "./LanguageContext.js";
 import Navbar   from "./components/Navbar.js";
 import Hero     from "./components/Hero.js";
 import About    from "./components/About.js";
@@ -401,6 +402,7 @@ if (!document.getElementById("portfolio-global-css")) {
 // ─── Loader ───────────────────────────────────────────────────────────────────
 function Loader({ onDone }) {
   const [exit, setExit] = useState(false);
+  const { t } = useLanguage();
   const name = "Lanja";
 
   useEffect(() => {
@@ -421,7 +423,7 @@ function Loader({ onDone }) {
       <div className="loader-line-wrap">
         <div className="loader-line-fill" />
       </div>
-      <div className="loader-sub">initialisation en cours</div>
+      <div className="loader-sub">{t("loader.sub")}</div>
     </div>
   );
 }
@@ -476,6 +478,7 @@ function Cursor() {
 // ─── Back To Top ──────────────────────────────────────────────────────────────
 function BackToTop() {
   const [visible, setVisible] = useState(false);
+  const { t } = useLanguage();
   useEffect(() => {
     const fn = () => setVisible(window.scrollY > 500);
     window.addEventListener("scroll", fn, { passive: true });
@@ -485,7 +488,7 @@ function BackToTop() {
     <button
       className={`back-top${visible ? " visible" : ""}`}
       onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-      aria-label="Haut de page"
+      aria-label={t("backToTop.ariaLabel")}
       data-hover
     >
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -509,26 +512,28 @@ export default function App() {
   };
 
   return (
-    <>
-      {!loaded && <Loader onDone={() => setLoaded(true)} />}
-      <Cursor />
-      <BackToTop />
-      {loaded && (
-        <div style={{ position: "relative", zIndex: 1 }}>
-          <Navbar theme={theme} toggleTheme={toggleTheme} />
-          <main>
-            <Hero />
-            <div className="section-divider" />
-            <About />
-            <div className="section-divider" />
-            <Skills />
-            <div className="section-divider" />
-            <Projects />
-            <div className="section-divider" />
-            <Contact />
-          </main>
-        </div>
-      )}
-    </>
+    <LanguageProvider>
+      <>
+        {!loaded && <Loader onDone={() => setLoaded(true)} />}
+        <Cursor />
+        <BackToTop />
+        {loaded && (
+          <div style={{ position: "relative", zIndex: 1 }}>
+            <Navbar theme={theme} toggleTheme={toggleTheme} />
+            <main>
+              <Hero />
+              <div className="section-divider" />
+              <About />
+              <div className="section-divider" />
+              <Skills />
+              <div className="section-divider" />
+              <Projects />
+              <div className="section-divider" />
+              <Contact />
+            </main>
+          </div>
+        )}
+      </>
+    </LanguageProvider>
   );
 }

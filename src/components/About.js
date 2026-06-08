@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useLanguage } from "../LanguageContext.js";
 import { OWNER, STATS } from "../data/portfolioData.js";
 
 const css = `
@@ -197,34 +198,7 @@ const css = `
   }
 `;
 
-const TIMELINE = [
-  {
-    icon: "🎓",
-    date: "2023 — 2024",
-    heading: "INSI Ambanidia",
-    sub: "Parcours transversal — Développement web",
-    desc: "Acquisition de compétences fondamentales et avancées en développement web : HTML/CSS, frameworks CSS (Bootstrap, Tailwind), algorithmes, langage C, PHP et Symfony.",
-  },
-  {
-    icon: "⚡",
-    date: "2024 — 2025",
-    heading: "Génie Logiciel",
-    sub: "INSI Ambanidia — Développement full-stack",
-    desc: "Transition vers le parcours Génie Logiciel : développement avancé full-stack (MERN, MEVN, MEAN), projets académiques et personnels, apprentissage continu.",
-  },
-  {
-    icon: "🚀",
-    date: "2025 — Aujourd'hui",
-    heading: "Perfectionnement",
-    sub: "Projets académiques & personnels",
-    desc: "Perfectionnement des technologies maîtrisées, gestion de projets complets, et exploration de nouvelles technologies (Flutter, NestJS, Docker, etc.).",
-  },
-];
 
-const TRAITS = [
-  "Curieux", "Motivé", "Créatif", "Rigoureux",
-  "Team player", "Problem solver", "Autodidacte", "Detail-oriented",
-];
 
 /* Animated counter */
 function AnimCounter({ target, duration = 1200, active }) {
@@ -250,10 +224,14 @@ function AnimCounter({ target, duration = 1200, active }) {
 }
 
 export default function About() {
+  const { lang, t } = useLanguage();
   const sectionRef  = useRef(null);
   const trackRef    = useRef(null);
   const itemRefs    = useRef([]);
   const [counters,  setCounters]  = useState(false);
+
+  const TIMELINE = t("about.timeline");
+  const TRAITS   = t("about.traits");
 
   useEffect(() => {
     if (!document.getElementById("about-css")) {
@@ -262,7 +240,6 @@ export default function About() {
       document.head.appendChild(s);
     }
 
-    /* Generic reveal */
     const revealObs = new IntersectionObserver(
       (entries) => entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add("visible"); }),
       { threshold: 0.1 }
@@ -271,14 +248,12 @@ export default function About() {
       ".reveal, .reveal-left, .reveal-right, .reveal-scale, .reveal-blur, .reveal-pop"
     ).forEach((el) => revealObs.observe(el));
 
-    /* Timeline items */
     const timeObs = new IntersectionObserver(
       (entries) => entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add("ti-visible"); }),
       { threshold: 0.2 }
     );
     itemRefs.current.forEach((el) => el && timeObs.observe(el));
 
-    /* Timeline track draw */
     const trackObs = new IntersectionObserver(
       (entries) => entries.forEach((e) => {
         if (e.isIntersecting && trackRef.current)
@@ -288,7 +263,6 @@ export default function About() {
     );
     if (sectionRef.current) trackObs.observe(sectionRef.current);
 
-    /* Counter trigger */
     let counterDone = false;
     const cntObs = new IntersectionObserver(
       (entries) => entries.forEach((e) => {
@@ -313,29 +287,24 @@ export default function About() {
       <div className="container">
 
         <div className="reveal" style={{ marginBottom: 52 }}>
-          <span className="section-label">01 / À propos</span>
+          <span className="section-label">{t("about.sectionLabel")}</span>
         </div>
 
         <div className="about__inner">
-          {/* ── LEFT ── */}
           <div>
             <div className="reveal-left">
-              <span className="about__heading-ghost">About</span>
-              <h2 className="about__heading">Qui suis&#8209;je&nbsp;?</h2>
+              <span className="about__heading-ghost">{t("about.ghostHeading")}</span>
+              <h2 className="about__heading">{t("about.heading")}</h2>
             </div>
 
             <p className="about__text reveal" style={{ transitionDelay: "0.12s" }}>
-              {OWNER.about}
+              {lang === "en" ? OWNER.aboutEn : OWNER.about}
             </p>
 
-            {/* Stat cards */}
             <div className="about__cards">
               {STATS.map((stat, i) => (
-                <div
-                  key={i}
-                  className="about__card reveal-scale"
-                  style={{ transitionDelay: `${0.1 + i * 0.1}s` }}
-                >
+                <div key={i} className="about__card reveal-scale"
+                  style={{ transitionDelay: `${0.1 + i * 0.1}s` }}>
                   <div className="about__card-shimmer" />
                   <div className="about__card-inner">
                     <span className="about__card-icon">{stat.icon}</span>
@@ -343,36 +312,33 @@ export default function About() {
                       <AnimCounter target={stat.value} active={counters} />
                       <span className="about__card-suffix">{stat.suffix}</span>
                     </div>
-                    <div className="about__card-label">{stat.label}</div>
+                    <div className="about__card-label">
+                      {lang === "en" ? stat.labelEn : stat.label}
+                    </div>
                   </div>
                 </div>
               ))}
             </div>
 
-            {/* Traits */}
             <div className="about__traits reveal" style={{ transitionDelay: "0.5s" }}>
-              {TRAITS.map((t) => (
-                <span key={t} className="trait">
-                  <span style={{ position: "relative", zIndex: 1 }}>{t}</span>
+              {TRAITS.map((tr) => (
+                <span key={tr} className="trait">
+                  <span style={{ position: "relative", zIndex: 1 }}>{tr}</span>
                 </span>
               ))}
             </div>
           </div>
 
-          {/* ── RIGHT: Timeline ── */}
           <div className="reveal-right">
-            <p className="about__timeline-label">Parcours</p>
+            <p className="about__timeline-label">{t("about.timelineLabel")}</p>
             <div className="timeline">
               <div className="timeline__track">
                 <div className="timeline__track-fill" ref={trackRef} />
               </div>
               {TIMELINE.map((item, i) => (
-                <div
-                  key={i}
-                  className="timeline__item"
+                <div key={i} className="timeline__item"
                   ref={(el) => (itemRefs.current[i] = el)}
-                  style={{ transitionDelay: `${0.15 + i * 0.18}s` }}
-                >
+                  style={{ transitionDelay: `${0.15 + i * 0.18}s` }}>
                   <div className="timeline__dot">{item.icon}</div>
                   <div className="timeline__content">
                     <div className="timeline__content-glow" />
