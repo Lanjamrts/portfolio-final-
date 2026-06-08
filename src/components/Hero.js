@@ -345,6 +345,53 @@ const css = `
     to   { opacity: 1; }
   }
 
+  /* ── CV Download Button ── */
+  .btn-cv {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 15px 32px; border-radius: 14px;
+    background: linear-gradient(135deg, #7c3aed 0%, #00c9a7 100%);
+    color: #fff;
+    font-family: var(--font-mono);
+    font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+    border: none; cursor: pointer; position: relative; overflow: hidden;
+    transition: all 0.4s var(--ease-spring);
+    text-decoration: none;
+    animation: cvPulse 2.5s ease-in-out infinite;
+  }
+  .btn-cv::before {
+    content: ''; position: absolute; top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+    animation: cvShimmer 2.5s ease-in-out infinite;
+  }
+  @keyframes cvShimmer {
+    0% { left: -100%; }
+    100% { left: 100%; }
+  }
+  @keyframes cvPulse {
+    0%, 100% { box-shadow: 0 0 20px rgba(124,58,237,0.25); }
+    50% { box-shadow: 0 0 45px rgba(124,58,237,0.55); }
+  }
+  .btn-cv:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(124,58,237,0.4);
+    animation: none;
+  }
+  .btn-cv svg {
+    transition: transform 0.3s var(--ease-spring);
+  }
+  .btn-cv:hover svg {
+    transform: translateY(4px);
+  }
+  .btn-cv:active svg {
+    animation: cvBounce 0.5s ease;
+  }
+  @keyframes cvBounce {
+    0%, 100% { transform: translateY(0); }
+    30% { transform: translateY(8px); }
+    60% { transform: translateY(-4px); }
+  }
+
   /* ── Responsive ── */
   @media (max-width: 1024px) {
     .hero__inner {
@@ -599,6 +646,20 @@ export default function Hero() {
             >
               Me contacter
             </button>
+            <a
+              href="/ANDRIANJATOVO-Lanja-Mirantsoa.pdf"
+              download="CV-Lanja-Mirantsoa.pdf"
+              className="btn-cv"
+              data-hover
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>
+              Télécharger mon CV
+            </a>
           </div>
 
           {/* Socials */}
