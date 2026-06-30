@@ -261,6 +261,20 @@ export const PROJECTS = [
     demo: null,
     featured: true,
   },
+  {
+    id: 11,
+    title: "Gestion de Tâches",
+    category: "Mobile",
+    description:
+      "Application mobile de gestion de tâches développée avec React Native et Expo. Interface intuitive permettant la création, le suivi et l'organisation des tâches quotidiennes. Projet en cours d'amélioration continue avec l'ajout régulier de nouvelles fonctionnalités.",
+    descriptionEn:
+      "Mobile task management application built with React Native and Expo. Intuitive interface for creating, tracking, and organizing daily tasks. Project under continuous improvement with regular addition of new features.",
+    techs: ["React Native", "Expo"],
+    image: "/react-native.png",
+    github: "https://github.com/Lanjamrts/gestion-de-tache-react-native-expo-",
+    demo: null,
+    featured: true,
+  },
 ];
 
 export const PROJECTS_FOOTER = {
