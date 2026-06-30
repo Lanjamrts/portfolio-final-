@@ -247,6 +247,20 @@ export const PROJECTS = [
     demo: null,
     featured: true,
   },
+  {
+    id: 10,
+    title: "Bloc Note",
+    category: "Mobile",
+    description:
+      "Application de bloc-notes moderne développée avec Flutter et Dart. Interface intuitive offrant une expérience de prise de notes fluide et réactive avec une architecture propre. Projet en constante évolution avec ajout régulier de nouvelles fonctionnalités.",
+    descriptionEn:
+      "Modern note-taking application built with Flutter and Dart. Intuitive interface offering a smooth and responsive note-taking experience with clean architecture. Project under continuous evolution with regular addition of new features.",
+    techs: ["Flutter", "Dart"],
+    image: "/bloc-note.png",
+    github: "https://github.com/Lanjamrts/bloc-note-flutter-dart-",
+    demo: null,
+    featured: true,
+  },
 ];
 
 export const PROJECTS_FOOTER = {
