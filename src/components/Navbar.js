@@ -23,26 +23,20 @@ const css = `
 
   /* Logo */
   .nav__logo {
-    display: inline-flex; align-items: center; gap: 2px;
-    font-family: var(--font-display); font-weight: 800;
-    font-size: 22px; letter-spacing: -0.03em;
-    color: var(--text-primary);
+    display: inline-flex; align-items: center;
     cursor: pointer;
     transition: opacity 0.2s;
     position: relative; overflow: hidden;
-    padding: 6px 4px;
     text-decoration: none; border: none; background: none;
+    padding: 2px 4px;
   }
-  .nav__logo-main { transition: transform 0.3s var(--ease-spring); display: block; }
-  .nav__logo-dot { color: var(--accent); }
-  .nav__logo:hover .nav__logo-main { transform: skewX(-4deg); }
-  .nav__logo-glow {
-    position: absolute; inset: 0;
-    background: radial-gradient(circle at center, var(--accent-dim), transparent 70%);
-    opacity: 0; transition: opacity 0.3s;
-    pointer-events: none;
+  .nav__logo-img {
+    height: 40px; width: auto;
+    display: block;
+    transition: transform 0.3s var(--ease-spring);
+    border-radius: 6px;
   }
-  .nav__logo:hover .nav__logo-glow { opacity: 1; }
+  .nav__logo:hover .nav__logo-img { transform: scale(1.05); }
 
   /* Links */
   .nav__links {
@@ -253,10 +247,7 @@ export default function Navbar({ theme, toggleTheme }) {
         <div className="container nav__inner">
           {/* Logo */}
           <button className="nav__logo" onClick={() => scrollTo("hero")} aria-label={t("nav.links.0.1")}>
-            <span className="nav__logo-main">
-              {OWNER.firstName}<span className="nav__logo-dot">.</span>
-            </span>
-            <div className="nav__logo-glow" />
+            <img src="/lanja-logo.jpeg" alt="Lanja" className="nav__logo-img" />
           </button>
 
           {/* Desktop links */}
