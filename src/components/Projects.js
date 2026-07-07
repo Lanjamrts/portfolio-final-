@@ -1,6 +1,6 @@
-import { useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useLanguage } from "../LanguageContext.js";
-import { PROJECTS, PROJECTS_FOOTER } from "../data/portfolioData.js";
+import { PROJECTS, PROJECTS_FOOTER, PROJECT_FILTERS } from "../data/portfolioData.js";
 
 const css = `
   /* ── Projects ── */
@@ -44,6 +44,31 @@ const css = `
   }
 
 
+
+  /* ── Filter Bar ── */
+  .projects__filters {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin-bottom: 40px;
+  }
+  .projects__filter-btn {
+    font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 7px 18px; border-radius: 100px;
+    background: var(--bg-elevated); border: 1px solid var(--border);
+    color: var(--silver-400); cursor: pointer;
+    transition: all 0.25s var(--ease-out);
+  }
+  .projects__filter-btn:hover {
+    border-color: var(--accent-dim);
+    color: var(--accent);
+    background: var(--accent-dim);
+  }
+  .projects__filter-btn.active {
+    background: var(--accent);
+    color: var(--bg-void);
+    border-color: var(--accent);
+    font-weight: 700;
+  }
 
   /* ── Grid ── */
   .projects__grid {
@@ -301,6 +326,7 @@ function TiltCard({ children }) {
 
 export default function Projects() {
   const { lang, t } = useLanguage();
+  const [activeFilter, setActiveFilter] = useState("Tous");
 
   useEffect(() => {
     if (!document.getElementById("projects-css")) {
@@ -337,8 +363,20 @@ export default function Projects() {
 
         </div>
 
+        <div className="projects__filters reveal">
+          {PROJECT_FILTERS.map((f) => (
+            <button
+              key={f}
+              className={`projects__filter-btn${activeFilter === f ? " active" : ""}`}
+              onClick={() => setActiveFilter(f)}
+            >
+              {f === "Tous" ? (lang === "en" ? "All" : "Tous") : f}
+            </button>
+          ))}
+        </div>
+
         <div className="projects__grid">
-          {PROJECTS.map((project, i) => (
+          {PROJECTS.filter((p) => activeFilter === "Tous" || p.category === activeFilter).map((project, i) => (
             <TiltCard key={project.id}>
               <article
                 className="project-card reveal"
