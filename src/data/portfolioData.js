@@ -275,6 +275,20 @@ export const PROJECTS = [
     demo: null,
     featured: true,
   },
+  {
+    id: 12,
+    title: "Snake Game",
+    category: "Mobile",
+    description:
+      "Jeu Snake classique développé avec React Native et Expo. Interface épurée, commandes tactiles intuitives et gameplay fluide. Projet en cours d'amélioration avec ajout régulier de nouvelles fonctionnalités.",
+    descriptionEn:
+      "Classic Snake game built with React Native and Expo. Clean interface, intuitive touch controls, and smooth gameplay. Project under continuous improvement with regular addition of new features.",
+    techs: ["React Native", "Expo"],
+    image: "/snake.png",
+    github: "https://github.com/Lanjamrts/snake-game-react-native-expo-",
+    demo: null,
+    featured: true,
+  },
 ];
 
 export const PROJECTS_FOOTER = {
