@@ -35,8 +35,14 @@ const css = `
     display: block;
     transition: transform 0.3s var(--ease-spring);
     border-radius: 6px;
+    animation: logoBreath 3s ease-in-out infinite;
   }
-  .nav__logo:hover .nav__logo-img { transform: scale(1.05); }
+  .nav__logo:hover .nav__logo-img { animation: none; transform: scale(1.05); }
+
+  @keyframes logoBreath {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0,245,212,0); }
+    50%      { transform: scale(1.04); box-shadow: 0 0 16px 2px rgba(0,245,212,0.25); }
+  }
 
   /* Links */
   .nav__links {
